@@ -1,0 +1,29 @@
+{
+  "name": "typescript-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build":"tsc",
+    "start": "yarn build && node dist/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digicabral/node-typescript-api.git"
+  },
+  "author": "Rodrigo Cabral",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digicabral/node-typescript-api/issues"
+  },
+  "homepage": "https://github.com/digicabral/node-typescript-api#readme",
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "module-alias": "^2.2.2",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/module-alias": "^2.0.1"
+  }
+}
