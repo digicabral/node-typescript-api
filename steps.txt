@@ -9,3 +9,6 @@ yarn add -D @types/module-alias
 yarn add -D @typescript-eslint/eslint-plugin eslint @typescript-eslint/parser
 
 yarn add -D ts-node-dev
+
+yarn add -D jest ts-jest @types/jest
+yarn add -D supertest
