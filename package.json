@@ -23,19 +23,28 @@
   },
   "homepage": "https://github.com/digicabral/node-typescript-api#readme",
   "dependencies": {
-    "@types/node": "^18.11.18",
+    "@overnightjs/core": "^1.7.6",
+    "@types/node": "^13.13.2",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
     "module-alias": "^2.2.2",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
-    "@types/module-alias": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "eslint": "^8.33.0",
-    "jest": "^29.4.1",
-    "supertest": "^6.3.3",
-    "ts-jest": "^29.0.5",
-    "ts-node-dev": "^2.0.0"
+    "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.1",
+    "@types/module-alias": "^2.0.0",
+    "@types/node": "^13.13.2",
+    "@types/supertest": "^2.0.9",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "jest": "^26.0.1",
+    "jest": "^25.0.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^25.5.0",
+    "ts-jest": "^25.5.1",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
   }
 }
