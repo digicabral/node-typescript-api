@@ -1,6 +1,7 @@
 import { InternalError } from "@src/util/errors/internal-errors";
 import { AxiosError, AxiosStatic } from "axios";
 import config, { IConfig } from "config";
+import * as HTTPUtil from "@src/util/request";
 
 //Mostly used to define shape of objects
 //Can be extended
@@ -55,7 +56,7 @@ export class StormGlass {
     readonly stormGlassAPIParams = 'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed';
     readonly stormGlassAPISource = 'noaa';
     readonly stormGlassAPIKey = process.env.API_KEY;
-    constructor(protected request: AxiosStatic){}
+    constructor(protected request = new HTTPUtil.Request() ){}
 
     public async fetchPoints(lat: number, lng: number): Promise<ForecastPoint[]>{
     try{
@@ -71,7 +72,12 @@ export class StormGlass {
      return this.normalizeResponse(response.data)
     }
     catch(err){
-        if ((err as AxiosError).response && (err as AxiosError).response?.data){
+        /*if ((err as AxiosError).response && (err as AxiosError).response?.data){
+            throw new StormGlassResponseError(
+                `Error: ${JSON.stringify((err as AxiosError).response?.data)} Code: ${(err as AxiosError).response?.status}`);
+        }*/
+
+        if(err instanceof Error && HTTPUtil.Request.isRequestError(err)){
             throw new StormGlassResponseError(
                 `Error: ${JSON.stringify((err as AxiosError).response?.data)} Code: ${(err as AxiosError).response?.status}`);
         }
