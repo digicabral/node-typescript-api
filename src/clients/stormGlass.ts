@@ -1,5 +1,5 @@
 import { InternalError } from "@src/util/errors/internal-errors";
-import { AxiosError, AxiosStatic } from "axios";
+import { AxiosError } from "axios";
 import config, { IConfig } from "config";
 import * as HTTPUtil from "@src/util/request";
 
@@ -68,7 +68,6 @@ export class StormGlass {
             }
         }
         );
-        //console.log(response.data)
      return this.normalizeResponse(response.data)
     }
     catch(err){
