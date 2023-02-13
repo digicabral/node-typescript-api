@@ -18,6 +18,3 @@ yarn add express body-parser @overnightjs/core
 yarn add -D @types/express
 
 yarn add -D prettier
-
-docker run -p 27017:27017 -d mongo
-docker ps
