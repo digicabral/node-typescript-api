@@ -1,6 +1,8 @@
 import { ForecastPoint, StormGlass } from "@src/clients/stormGlass";
 import { InternalError } from "@src/util/errors/internal-errors";
+import { Beach } from "@src/models/beach";
 
+export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint{}
 
 export interface TimeForecast {
     time: string;
@@ -12,8 +14,6 @@ export class ForecastProcessingInternalError extends InternalError{
         super(`Unexpected error during the forecast processing: ${message}`)
     }
 }
-
-export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint{}
 
 export class Forecast {
     constructor(protected stormGlass = new StormGlass()){}
@@ -29,13 +29,14 @@ export class Forecast {
         }
         return this.mapForecastBytime(pointsWithCorrectSources);
     }
-    catch(error){
-        throw new ForecastProcessingInternalError(error.message);
+    catch(e){
+        throw new ForecastProcessingInternalError((e as Error).message);
     }
     }
 
     private enrichBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[]{
         return points.map((e)=>({
+            ...{},
             ...{
                 lat: beach.lat,
                 lng: beach.lng,
