@@ -2,7 +2,7 @@ import { ForecastPoint, StormGlass } from "@src/clients/stormGlass";
 import { InternalError } from "@src/util/errors/internal-errors";
 import { Beach } from "@src/models/beach";
 
-export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint{}
+export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint{}
 
 export interface TimeForecast {
     time: string;
@@ -34,7 +34,10 @@ export class Forecast {
     }
     }
 
-    private enrichBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[]{
+    private enrichBeachData(
+        points: ForecastPoint[],
+        beach: Beach
+        ): BeachForecast[]{
         return points.map((e)=>({
             ...{},
             ...{

@@ -1,7 +1,20 @@
 import {Beach} from "@src/models/beach";
+import { User } from "@src/models/user";
+import AuthService from "@src/services/auth";
 
 describe('Beaches functional tests', ()=>{
-    beforeAll(async() => await Beach.deleteMany({}));
+    const defaultUser = {
+        name: 'John Doe',
+        email: 'john@mail.com',
+        password: '1234',
+    }
+    let token: string;
+    beforeEach(async()=>{
+        await Beach.deleteMany({});
+        await User.deleteMany({});
+        const user = await new User(defaultUser).save();
+        token = AuthService.generateToken(user.toJSON());
+    });
     describe('When creating a beach', ()=>{
         it('should create a beach with success', async()=>{
             const newBeach = {
@@ -12,6 +25,7 @@ describe('Beaches functional tests', ()=>{
             };
             const response = await global.testRequest
             .post('/beaches')
+            .set({"x-access-token": token})
             .send(newBeach);
             expect(response.status).toBe(201);
             expect(response.body).toEqual(expect.objectContaining(newBeach));
@@ -27,17 +41,18 @@ describe('Beaches functional tests', ()=>{
             };
             const response = await global.testRequest
             .post('/beaches')
+            .set({"x-access-token": token})
             .send(newBeach);
             expect(response.status).toBe(422);
             expect(response.body).toEqual({
                 error:
-                'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"',
+                'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"'
             });
 
         })
 
         it.skip('should throw a 500 error',async()=>{
-            
+            //TODO TTTT
         })
     })
 

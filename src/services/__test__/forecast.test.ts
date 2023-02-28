@@ -15,7 +15,7 @@ describe('Forecast Service',()=>{
         lng: 151.289824,
         name: 'Manly',
         position: GeoPosition.E,
-        userId: 'some-id',
+        user: 'some-id',
       }]
           const expectedResponse = [
             {
@@ -97,7 +97,7 @@ describe('Forecast Service',()=>{
           lng: 151.289824,
           name: 'Manly',
           position: GeoPosition.E,
-          userId: 'some-id',
+          user: 'fake-id',
       }];
       mockedStormGlassService.fetchPoints.mockRejectedValue(
         'Error fetching data'
