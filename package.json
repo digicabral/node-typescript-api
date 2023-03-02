@@ -15,7 +15,9 @@
     "style:check": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",
     "style:fix": "prettier --write 'src/**/*.ts' 'test/**/*.ts'"
   },
-  "engines":{"node": "12"},
+  "engines": {
+    "node": "12"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/digicabral/node-typescript-api.git"
@@ -45,8 +47,9 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "8.5.1",
     "module-alias": "^2.2.2",
+    "mongoose": "^6.1.4",
     "pino-pretty": "^9.4.0",
-    "mongoose": "^6.1.4"
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
