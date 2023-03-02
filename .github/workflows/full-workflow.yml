@@ -20,7 +20,7 @@ jobs:
       matrix:
         node-version: [12.x]
         mongodb-version: [4.2]
-        
+
     steps:
       - uses: actions/checkout@v2
 
@@ -39,3 +39,11 @@ jobs:
 
       - name: Run all tests
         run: yarn test
+
+      - name: Deploy application
+        if: ${{ github.ref == 'refs/header/master' || github.ref == 'refs/header/main'}}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "cabral-surf-forecast"
+          heroku_email: "digicabral@gmail.com"
