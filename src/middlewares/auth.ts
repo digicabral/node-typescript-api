@@ -1,3 +1,4 @@
+import logger from "@src/logger";
 import AuthService from "@src/services/auth";
 import { NextFunction, Request, Response } from "express";
 
@@ -12,6 +13,7 @@ export function authMiddleware(
         req.decoded = decoded;
         next();
     }catch(err){
+        logger.error(err);
         res.status?.(401).send({code:401, error: (err as Error).message});
     }   
 }
