@@ -2,6 +2,8 @@ import './util/module-alias';
 import { Server } from '@overnightjs/core';
 import bodyParser from 'body-parser';
 import * as http from 'http';
+import expressPino from 'express-pino-logger';
+import cors from 'cors';
 import { Application } from 'express';
 import { ForecastController } from './controllers/forecast';
 import * as database from '@src/database';
@@ -24,6 +26,12 @@ export class SetupServer extends Server {
 
   private setupExpress(): void {
     this.app.use(bodyParser.json());
+    this.app.use(expressPino({
+      logger,
+    }));
+    this.app.use(cors({
+      origin: '*',
+    }))
   }
 
   private setupControllers(): void {
