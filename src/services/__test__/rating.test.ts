@@ -13,7 +13,43 @@ describe('Rating service',()=>{
     const defaultRating = new Rating(defaultbeach);
 
     describe('Calculate rating for a given point',()=>{
-        //TODO
+        const defaultPoint = {
+            swellDirection: 110,
+            swellHeight: 0.1,
+            swellPeriod: 5,
+            time: 'test',
+            waveDirection: 110,
+            waveHeight:0.1,
+            windDirection: 100,
+            windSpeed: 100,
+        };
+
+        
+        it('should get a rating less than 1 for a poor point',()=>{
+            const rating = defaultRating.getRateForPoint(defaultPoint);
+            expect(rating).toBe(1);
+        });
+
+        it('should get a rating of 1 for an ok point',()=>{
+            const pointData = {
+                swellHeight: 0.4
+            }
+            const point = {...defaultPoint, ...pointData};
+            const rating = defaultRating.getRateForPoint(point);
+            expect(rating).toBe(1);
+        });
+
+        it('should get a rating of 3 for a point with offshore winds and a half overhead height',()=>{
+            const point = {
+                ...defaultPoint,
+                ...{
+                    swellHeight: 0.4,
+                    windDirection: 250,
+                },
+            };
+            const rating = defaultRating.getRateForPoint(point);
+            expect(rating).toBe(3);
+        });
     });
 
     describe('Get rating based on wind and wave positions',()=>{
