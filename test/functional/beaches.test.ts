@@ -18,7 +18,7 @@ describe('Beaches functional tests', () => {
   describe('When creating a beach', () => {
     it('should create a beach with success', async () => {
       const newBeach = {
-        lat: -33792726,
+        lat: -33.792726,
         lng: 151.289824,
         name: 'Manly',
         position: 'E',
@@ -46,13 +46,31 @@ describe('Beaches functional tests', () => {
       expect(response.body).toEqual({
         code: 400,
         error: 'Bad Request',
-        message:
-          'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"',
+        message: 'request/body/lat must be number',
       });
     });
 
-    it.skip('should throw a 500 error', async () => {
-      //TODO TTTT
+    it('should return 500 when there is any error other than validation error', async () => {
+      jest
+        .spyOn(Beach.prototype, 'save')
+        .mockRejectedValueOnce('fail to create beach');
+      const newBeach = {
+        lat: -33.792726,
+        lng: 46.43243,
+        name: 'Manly',
+        position: 'E',
+      };
+
+      const response = await global.testRequest
+        .post('/beaches')
+        .send(newBeach)
+        .set({ 'x-access-token': token });
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({
+        code: 500,
+        error: 'Internal Server Error',
+        message: 'Something went wrong!',
+      });
     });
   });
 });

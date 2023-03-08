@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "https://cabral-surf-forecast.herokuapp.com/",
+      "url": "http://waldemarnt-com.umbler.net/",
       "description": "Production Server"
     },
     {
@@ -58,6 +58,21 @@
                   "message": "Invalid parameters",
                   "code": "400",
                   "error": "Bad Request"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Conflict",
+                  "code": "409",
+                  "error": "Conflict"
                 }
               }
             }
@@ -111,18 +126,9 @@
     },
     "/users/me": {
       "get": {
+        "security": [{ "apiKey": [] }],
         "description": "Get the profile of the token's owner",
         "operationId": "getUserProfile",
-        "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "schema": {
-              "$ref": "#/components/schemas/jwtToken"
-            },
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "The user information",
@@ -154,18 +160,9 @@
     },
     "/beaches": {
       "post": {
+        "security": [{ "apiKey": [] }],
         "description": "Create a new Beach belonging to the authenticated user",
         "operationId": "createBeach",
-        "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "schema": {
-              "$ref": "#/components/schemas/jwtToken"
-            },
-            "required": true
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -178,7 +175,14 @@
         },
         "responses": {
           "201": {
-            "description": "The Beach has been created!"
+            "description": "The Beach has been created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BeachCreatedResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Error validating the beach data.",
@@ -200,16 +204,25 @@
     },
     "/forecast": {
       "get": {
+        "security": [{ "apiKey": [] }],
         "description": "Get the list of forecast ordered by the most ranked",
         "operationId": "getForecast",
         "parameters": [
           {
-            "name": "x-access-token",
-            "in": "header",
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
             "schema": {
-              "$ref": "#/components/schemas/jwtToken"
-            },
-            "required": true
+              "$ref": "#/components/schemas/orderBy"
+            }
+          },
+          {
+            "name": "orderField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/orderField"
+            }
           }
         ],
         "responses": {
@@ -228,7 +241,25 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "name": "x-access-token",
+        "in": "header"
+      }
+    },
     "schemas": {
+      "orderBy": {
+        "type": "string",
+        "example": "desc",
+        "enum": ["asc", "desc"],
+        "default": "desc"
+      },
+      "orderField": {
+        "type": "string",
+        "example": "rating",
+        "default": "rating"
+      },
       "jwtToken": {
         "type": "string",
         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTdmZTQ0YzQzYWQwYjAwMThmOGQ5ZmQiLCJuYW1lIjoiV2FsZGVtYXIgTmV0byIsImVtYWlsIjoid2FsZGVtYXJudEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRsUlZjWkc5d0dIVWJXcHF2TnJNR0F1SnNoWWJTR1RLSElQL3NycDlmTlkzZENFZDBJQjN6TyIsImlhdCI6MTU4NTQ0MDUxNywiZXhwIjoxNTg1NDYwNTE3fQ.JNtzLgCKGTAU9_-QjYUNxtM7X4nMU_pPIsNXDsEM-vP"
@@ -466,6 +497,26 @@
                 "$ref": "#/components/schemas/id"
               }
             }
+          }
+        }
+      },
+      "BeachCreatedResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/beachName"
+          },
+          "lat": {
+            "$ref": "#/components/schemas/beachLat"
+          },
+          "lng": {
+            "$ref": "#/components/schemas/beachLng"
+          },
+          "position": {
+            "$ref": "#/components/schemas/beachPosition"
           }
         }
       },
