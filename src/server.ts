@@ -4,6 +4,10 @@ import bodyParser from 'body-parser';
 import * as http from 'http';
 import expressPino from 'express-pino-logger';
 import cors from 'cors';
+import apiSchema from './api.schema.json';
+import swaggerUI from 'swagger-ui-express';
+import * as OpenApiValidator from 'express-openapi-validator';
+import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 import { Application } from 'express';
 import { ForecastController } from './controllers/forecast';
 import * as database from '@src/database';
@@ -20,25 +24,34 @@ export class SetupServer extends Server {
 
   public async init(): Promise<void> {
     this.setupExpress();
+    await this.docSetup();
     this.setupControllers();
     await this.databaseSetup();
   }
 
   private setupExpress(): void {
     this.app.use(bodyParser.json());
-    this.app.use(expressPino({
-      logger,
-    }));
-    this.app.use(cors({
-      origin: '*',
-    }))
+    this.app.use(
+      expressPino({
+        logger,
+      })
+    );
+    this.app.use(
+      cors({
+        origin: '*',
+      })
+    );
   }
 
   private setupControllers(): void {
     const forecastController = new ForecastController();
     const beachesController = new BeachesController();
     const usersController = new UsersController();
-    this.addControllers([forecastController, beachesController, usersController]);
+    this.addControllers([
+      forecastController,
+      beachesController,
+      usersController,
+    ]);
   }
 
   public getApp(): Application {
@@ -50,11 +63,11 @@ export class SetupServer extends Server {
 
   public async close(): Promise<void> {
     await database.close();
-    if (this.server){
-      await new Promise((resolve, reject)=>{
-        this.server?.close((err) =>{
-          if(err){
-            return reject(err)
+    if (this.server) {
+      await new Promise((resolve, reject) => {
+        this.server?.close((err) => {
+          if (err) {
+            return reject(err);
           }
           resolve(true);
         });
@@ -62,8 +75,19 @@ export class SetupServer extends Server {
     }
   }
 
-  public start(): void{
-    this.app.listen(this.port, ()=>{
+  private async docSetup(): Promise<void> {
+    this.app.use('/docs', swaggerUI.serve, swaggerUI.setup(apiSchema));
+    this.app.use(
+      OpenApiValidator.middleware({
+        apiSpec: apiSchema as OpenAPIV3.Document,
+        validateRequests: true,
+        validateResponses: true,
+      })
+    );
+  }
+
+  public start(): void {
+    this.app.listen(this.port, () => {
       logger.info('Server listening on port: ', this.port);
     });
   }
