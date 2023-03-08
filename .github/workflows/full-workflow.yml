@@ -11,14 +11,12 @@ on:
       - master
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
         mongodb-version: [4.2]
 
     steps:
@@ -46,5 +44,5 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "cabral-surf-forecast"
-          heroku_email: "digicabral@gmail.com"
+          heroku_app_name: 'cabral-surf-forecast'
+          heroku_email: 'digicabral@gmail.com'
