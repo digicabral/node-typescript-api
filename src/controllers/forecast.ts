@@ -19,7 +19,6 @@ const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute in milliseconds
   max: 10, // 10 requests
   keyGenerator(req: Request): string {
-    console.log('opa teste' + req.ip);
     return req.ip;
   },
   handler(_, res: Response): void {

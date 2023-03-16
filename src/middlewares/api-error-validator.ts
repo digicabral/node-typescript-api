@@ -1,5 +1,5 @@
 import ApiError from '@src/util/errors/api-error';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 export interface HTTPError extends Error {
   status?: number;
@@ -8,8 +8,7 @@ export interface HTTPError extends Error {
 export function apiErrorValidator(
   error: HTTPError,
   _: Partial<Request>,
-  res: Response,
-  __: NextFunction
+  res: Response
 ): void {
   const errorCode = error.status || 500;
   res
