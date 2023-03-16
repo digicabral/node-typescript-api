@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ApiError from '@src/util/errors/api-error';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 export interface HTTPError extends Error {
   status?: number;
@@ -8,7 +9,8 @@ export interface HTTPError extends Error {
 export function apiErrorValidator(
   error: HTTPError,
   _: Partial<Request>,
-  res: Response
+  res: Response,
+  __: NextFunction
 ): void {
   const errorCode = error.status || 500;
   res
