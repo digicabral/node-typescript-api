@@ -1,11 +1,11 @@
-import _ from 'lodash';
 import { ForecastPoint, StormGlass } from '@src/clients/stormGlass';
-import { InternalError } from '@src/util/errors/internal-errors';
-import { Beach } from '@src/models/beach';
 import logger from '@src/logger';
+import { Beach } from '@src/models/beach';
+import { InternalError } from '@src/util/errors/internal-errors';
+import _ from 'lodash';
 import { Rating } from './rating';
 
-export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}
+export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint {}
 
 export interface TimeForecast {
   time: string;

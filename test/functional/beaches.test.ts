@@ -42,7 +42,9 @@ describe('Beaches functional tests', () => {
         .post('/beaches')
         .set({ 'x-access-token': token })
         .send(newBeach);
+
       expect(response.status).toBe(400);
+      console.log(JSON.stringify(response.body));
       expect(response.body).toEqual({
         code: 400,
         error: 'Bad Request',

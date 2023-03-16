@@ -13,7 +13,7 @@ export interface Beach extends BaseModel {
   position: GeoPosition;
   lat: number;
   lng: number;
-  user: string;
+  userId: string;
 }
 
 export interface ExistingBeach extends Beach {
@@ -26,7 +26,7 @@ const schema = new mongoose.Schema(
     lng: { type: Number, required: true },
     name: { type: String, required: true },
     position: { type: String, required: true },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   {
     toJSON: {
