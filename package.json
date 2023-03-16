@@ -6,12 +6,12 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "start:local": "ts-node-dev --transpile-only src/index.ts|pino-pretty -c",
+    "start:local": "dotenv -e .env -- ts-node-dev --transpile-only src/index.ts|pino-pretty -c",
     "test": "yarn lint && yarn style:check && yarn test:unit && yarn test:functional",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
-    "test:functional": "jest --projects ./test --runInBand",
-    "test:unit": "jest",
+    "test:functional": "dotenv -e .env -- jest --projects ./test --runInBand",
+    "test:unit": "dotenv -e .env -- jest",
     "style:check": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",
     "style:fix": "prettier --write 'src/**/*.ts' 'test/**/*.ts'"
   },
@@ -75,6 +75,7 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
+    "dotenv-cli": "^7.1.0",
     "eslint": "^8.5.0",
     "jest": "^27.4.5",
     "nock": "11.1.0",
